@@ -9,8 +9,8 @@ import UIKit
 
 class CarTableViewController: UITableViewController {
     
-    var selectedAttribute: CarAttribute!
-    var cars: [Car] = []
+    var selectedMake: CarMake!
+    var cars: [Int] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,8 +39,8 @@ class CarTableViewController: UITableViewController {
         let car = cars[indexPath.row]
 
         // Configure the cell...
-        cell.textLabel?.text = "\(car.make ?? "") \(car.model ?? "")"
-        cell.detailTextLabel?.text = car.trim ?? ""
+        //cell.textLabel?.text = "\(car.make ?? "") \(car.model ?? "")"
+        //cell.detailTextLabel?.text = car.trim ?? ""
 
         return cell
     }
@@ -94,7 +94,7 @@ class CarTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
         if let CarTableViewController = segue.destination as? CarTableViewController{
             if let indexPath = self.tableView.indexPathForSelectedRow{
-                CarTableViewController.selectedAttribute = attributes[indexPath.row]
+                //CarTableViewController.selectedMake = attributes[indexPath.row]
             }
         }
     }

@@ -7,16 +7,11 @@
 
 import Foundation
 
-struct Cars: Codable{
-    let data: [Car]
+struct CarMakeResponse: Codable {
+    let data: [CarMake]
 }
 
-struct Car: Codable{
+struct CarMake: Codable {
     let id: Int?
-    let year: Int?
-    let make: String?
-    let model: String?
-    let trim: String?
-    let bodyType: String?
-    let fuelType: String?
+    let name: String?
 }
