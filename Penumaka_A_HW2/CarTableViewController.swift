@@ -9,8 +9,8 @@ import UIKit
 
 class CarTableViewController: UITableViewController {
     
-    var selectedMake: CarMake!
-    var cars: [Int] = []
+    var selectedMake: CarMake?
+    var cars: [Car] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,9 +20,50 @@ class CarTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        print("Selected make:", selectedMake?.name ?? "nil")
+        fetchCars()
+        
     }
 
     // MARK: - Table view data source
+    
+    func fetchCars(){
+        guard let selectedMake = selectedMake else {return}
+        let makeName = selectedMake.name?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        let feedURL = "https://carapi.app/api/models/v2?make=\(makeName)"
+        
+        guard let url = URL(string: feedURL) else {
+            print("Invalid URL")
+            return
+        }
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            
+            if let error = error {
+                print("API Error:", error.localizedDescription)
+                return
+            }
+            
+            guard let data = data else {
+                print("No data")
+                return
+            }
+            
+            do {
+                if let jsonString = String(data: data, encoding: .utf8) {
+                print(jsonString)
+                }
+                let decodedData = try JSONDecoder().decode(CarResponse.self, from: data)
+                DispatchQueue.main.async {
+                    self.cars = decodedData.data
+                    self.tableView.reloadData()
+                }
+                
+            } catch {
+                print("Decode Error:", error)
+            }
+            
+        }.resume()
+    }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -35,18 +76,12 @@ class CarTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CarCell", for: indexPath)
-        let car = cars[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "attriCell", for: indexPath)
 
         // Configure the cell...
-        //cell.textLabel?.text = "\(car.make ?? "") \(car.model ?? "")"
-        //cell.detailTextLabel?.text = car.trim ?? ""
-
+        let car = cars[indexPath.row]
+        cell.textLabel?.text = car.name
         return cell
-    }
-    
-    func fetchCarsByAttribute(){
-        
     }
     
 

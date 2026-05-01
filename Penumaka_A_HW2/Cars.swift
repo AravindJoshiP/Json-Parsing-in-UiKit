@@ -15,3 +15,13 @@ struct CarMake: Codable {
     let id: Int?
     let name: String?
 }
+
+struct CarResponse: Codable {
+    let data: [Car]
+}
+
+struct Car: Codable {
+    let id: Int?
+    let make: String?
+    let name: String?
+}

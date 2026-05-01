@@ -135,12 +135,14 @@ class TableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
-        if let CarTableViewController = segue.destination as? CarTableViewController{
-            if let indexPath = self.tableView.indexPathForSelectedRow{
-                CarTableViewController.selectedMake = carMakes[indexPath.row]
-            }
+        if let nav = segue.destination as? UINavigationController,
+           let vc = nav.topViewController as? CarTableViewController,
+           let cell = sender as? UITableViewCell,
+           let indexPath = tableView.indexPath(for: cell) {
+            
+            vc.selectedMake = carMakes[indexPath.row]
         }
+        
     }
     
-
 }
