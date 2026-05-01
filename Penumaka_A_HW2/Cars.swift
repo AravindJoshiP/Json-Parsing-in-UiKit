@@ -25,3 +25,16 @@ struct Car: Codable {
     let make: String?
     let name: String?
 }
+
+struct CarDetailsResponse: Codable{
+    let data:[CarDetails]
+}
+
+struct CarDetails: Codable{
+    let make: String?
+    let model: String?
+    let trim_description: String?
+    let engine_type: String?
+    let transmission: String?
+    let drive_type: String?
+}

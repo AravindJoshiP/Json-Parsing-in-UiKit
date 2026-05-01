@@ -22,9 +22,13 @@ class CarTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         print("Selected make:", selectedMake?.name ?? "nil")
         fetchCars()
+        self.title = selectedMake?.name
         
     }
 
+    @IBAction func backButton(_ sender: Any) {
+        dismiss(animated: true)
+    }
     // MARK: - Table view data source
     
     func fetchCars(){
@@ -49,13 +53,19 @@ class CarTableViewController: UITableViewController {
             }
             
             do {
-                if let jsonString = String(data: data, encoding: .utf8) {
+                /*if let jsonString = String(data: data, encoding: .utf8) {
                 print(jsonString)
-                }
+                }*/
                 let decodedData = try JSONDecoder().decode(CarResponse.self, from: data)
                 DispatchQueue.main.async {
                     self.cars = decodedData.data
                     self.tableView.reloadData()
+                    if(self.cars.isEmpty){
+                        let label = UILabel()
+                        label.text = "No Cars Found"
+                        label.textAlignment = .center
+                        self.tableView.backgroundView = label
+                    }
                 }
                 
             } catch {
@@ -76,7 +86,7 @@ class CarTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "attriCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "carCell", for: indexPath)
 
         // Configure the cell...
         let car = cars[indexPath.row]
@@ -127,9 +137,9 @@ class CarTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
-        if let CarTableViewController = segue.destination as? CarTableViewController{
+        if let DescriptionViewController = segue.destination as? DescriptionViewController{
             if let indexPath = self.tableView.indexPathForSelectedRow{
-                //CarTableViewController.selectedMake = attributes[indexPath.row]
+                DescriptionViewController.selectedCar = cars[indexPath.row]
             }
         }
     }
