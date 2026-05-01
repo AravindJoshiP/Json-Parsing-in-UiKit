@@ -18,12 +18,17 @@ class DescriptionViewController: UIViewController {
     @IBOutlet weak var engLabel: UILabel!
     @IBOutlet weak var transLabel: UILabel!
     @IBOutlet weak var descLabel: UILabel!
+    @IBOutlet weak var yearLabel: UILabel!
+    @IBOutlet weak var hpLabel: UILabel!
+    @IBOutlet weak var cylindersLabel: UILabel!
+    @IBOutlet weak var enginedescLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         //self.makeLabel.text = selectedCar?.make
         //self.carLabel.text = selectedCar?.name
         // Do any additional setup after loading the view.
         fetchCarDetails()
+         
     }
     
     func fetchCarDetails(){
@@ -57,6 +62,10 @@ class DescriptionViewController: UIViewController {
                         self.driveLabel.text = "No Details Found"
                         self.engLabel.text = "No Details Found"
                         self.transLabel.text = "No Details Found"
+                        self.enginedescLabel.text = "No Details Found"
+                        self.cylindersLabel.text = "No Details Found"
+                        self.hpLabel.text = "No Details Found"
+                        self.yearLabel.text = "No Details Found"
                         self.carLabel.text = self.selectedCar?.name
                         self.makeLabel.text = self.selectedCar?.make
                     }
@@ -67,6 +76,10 @@ class DescriptionViewController: UIViewController {
                         self.engLabel.text = self.details![0].engine_type
                         self.transLabel.text = self.details![0].transmission
                         self.makeLabel.text = self.details![0].make
+                        self.enginedescLabel.text = self.details![0].cam_type
+                        self.cylindersLabel.text = self.details![0].cylinders
+                        self.hpLabel.text = String(self.details![0].horsepower_hp ?? 1)
+                        self.yearLabel.text = String(self.details![0].year ?? 2026)
                     }
                 }
                 

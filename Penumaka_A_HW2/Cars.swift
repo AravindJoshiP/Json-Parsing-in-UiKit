@@ -37,4 +37,8 @@ struct CarDetails: Codable{
     let engine_type: String?
     let transmission: String?
     let drive_type: String?
+    let cam_type: String?
+    let cylinders: String?
+    let horsepower_hp: Int?
+    let year: Int?
 }
